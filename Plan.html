@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>План Рекомпозиции: V-силуэт</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafaf9; /* stone-50 */
+            color: #292524; /* stone-800 */
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+
+        .tab-btn {
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #059669; /* emerald-600 */
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .day-btn {
+            transition: all 0.2s ease;
+        }
+        .day-btn.active {
+            background-color: #059669;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.3);
+        }
+
+        .meal-card {
+            transition: transform 0.2s;
+        }
+        .meal-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .strikethrough {
+            text-decoration: line-through;
+            color: #a8a29e; /* stone-400 */
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Header / Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <span class="text-2xl">🛡️</span>
+                    <span class="font-bold text-xl tracking-tight text-emerald-800">V-Силуэт</span>
+                </div>
+                <nav class="flex space-x-1 sm:space-x-4 overflow-x-auto">
+                    <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn active px-3 py-2 text-sm font-medium text-stone-600 hover:text-emerald-600 whitespace-nowrap">📊 Обзор</button>
+                    <button onclick="switchTab('training')" id="tab-training" class="tab-btn px-3 py-2 text-sm font-medium text-stone-600 hover:text-emerald-600 whitespace-nowrap">💪 Тренировки</button>
+                    <button onclick="switchTab('nutrition')" id="tab-nutrition" class="tab-btn px-3 py-2 text-sm font-medium text-stone-600 hover:text-emerald-600 whitespace-nowrap">🥩 Питание</button>
+                    <button onclick="switchTab('groceries')" id="tab-groceries" class="tab-btn px-3 py-2 text-sm font-medium text-stone-600 hover:text-emerald-600 whitespace-nowrap">🛒 Покупки</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- 1. OVERVIEW SECTION -->
+        <section id="overview" class="animate-fade-in block">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-stone-800 mb-2">Обзор плана рекомпозиции</h1>
+                <p class="text-stone-600">Добро пожаловать в ваш интерактивный план. Здесь собрана ключевая статистика вашей цели: снижение процента жира до 12% с одновременным построением атлетичного V-образного силуэта.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Vitals Card -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-stone-100">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">👤 Ваши данные</h3>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between border-b border-stone-100 pb-2"><span class="text-stone-500">Рост:</span> <span class="font-medium">186 см</span></li>
+                        <li class="flex justify-between border-b border-stone-100 pb-2"><span class="text-stone-500">Вес:</span> <span class="font-medium">~80 кг</span></li>
+                        <li class="flex justify-between border-b border-stone-100 pb-2"><span class="text-stone-500">Образ жизни:</span> <span class="font-medium">Сидячий</span></li>
+                        <li class="flex justify-between text-emerald-700 font-semibold pt-1"><span class="text-stone-500">Шаги/день:</span> <span>10 000 🚶‍♂️</span></li>
+                    </ul>
+                </div>
+
+                <!-- Core Rule Card -->
+                <div class="bg-rose-50 rounded-xl shadow-sm p-6 border border-rose-100 md:col-span-2 flex flex-col justify-center">
+                    <div class="flex items-start gap-4">
+                        <span class="text-4xl">⚠️</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-rose-800 mb-2">Главное правило безопасности</h3>
+                            <p class="text-rose-900 mb-2"><strong>НИКАКОЙ ОСЕВОЙ НАГРУЗКИ НА ПОЗВОНОЧНИК.</strong></p>
+                            <p class="text-sm text-rose-700">Из-за сидячей работы и прошлого дискомфорта в пояснице, классические приседания со штангой и становые тяги полностью исключены. План адаптирован на турники, брусья, жимы ногами и тяги с упором.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Goal Visualization -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-stone-100">
+                    <h3 class="text-lg font-semibold mb-6 flex items-center gap-2">📉 Цель: Процент жира</h3>
+                    <div class="relative pt-1 mb-8">
+                        <div class="flex mb-2 items-center justify-between">
+                            <div><span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-rose-600 bg-rose-200">Текущий: 18%</span></div>
+                            <div class="text-right"><span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200">Цель: 12%</span></div>
+                        </div>
+                        <div class="overflow-hidden h-4 mb-4 text-xs flex rounded-full bg-stone-200">
+                            <div style="width: 33%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500 rounded-l-full"></div>
+                            <div style="width: 67%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-rose-400"></div>
+                        </div>
+                        <p class="text-sm text-stone-500 text-center">Разница сжигается за счет дефицита калорий и ежедневных шагов.</p>
+                    </div>
+
+                    <h3 class="text-lg font-semibold mb-4 mt-8 flex items-center gap-2">🎯 Фокус Силуэта</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-stone-100 text-stone-700 rounded-md text-sm font-medium">Ширина спины (Подтягивания)</span>
+                        <span class="px-3 py-1 bg-stone-100 text-stone-700 rounded-md text-sm font-medium">Средняя дельта (Махи)</span>
+                        <span class="px-3 py-1 bg-stone-100 text-stone-700 rounded-md text-sm font-medium">Верх груди (Жимы/Отжимания)</span>
+                    </div>
+                </div>
+
+                <!-- Macro Chart -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-stone-100">
+                    <h3 class="text-lg font-semibold mb-2 flex items-center gap-2">🍽️ Макронутриенты (БЖУ)</h3>
+                    <p class="text-sm text-stone-500 mb-4 text-center">Суточная норма: ~2250 ккал</p>
+                    <div class="chart-container">
+                        <canvas id="macroChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. TRAINING SECTION -->
+        <section id="training" class="hidden animate-fade-in">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-stone-800 mb-2">График Тренировок</h1>
+                <p class="text-stone-600">Интерактивное расписание на неделю. Активность в 10 000 шагов обязательна каждый день.</p>
+            </div>
+
+            <!-- Days Interactive Grid -->
+            <div class="flex flex-wrap gap-2 mb-8 justify-center sm:justify-start">
+                <button onclick="selectDay('pn')" id="btn-pn" class="day-btn px-4 py-3 rounded-lg bg-white border border-stone-200 text-stone-700 font-semibold min-w-[60px] active">ПН</button>
+                <button onclick="selectDay('vt')" id="btn-vt" class="day-btn px-4 py-3 rounded-lg bg-white border border-stone-200 text-stone-700 font-semibold min-w-[60px]">ВТ</button>
+                <button onclick="selectDay('sr')" id="btn-sr" class="day-btn px-4 py-3 rounded-lg bg-white border border-stone-200 text-stone-700 font-semibold min-w-[60px]">СР</button>
+                <button onclick="selectDay('cht')" id="btn-cht" class="day-btn px-4 py-3 rounded-lg bg-white border border-stone-200 text-stone-700 font-semibold min-w-[60px]">ЧТ</button>
+                <button onclick="selectDay('pt')" id="btn-pt" class="day-btn px-4 py-3 rounded-lg bg-white border border-stone-200 text-stone-700 font-semibold min-w-[60px]">ПТ</button>
+                <button onclick="selectDay('sb')" id="btn-sb" class="day-btn px-4 py-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold min-w-[60px]">СБ</button>
+                <button onclick="selectDay('vs')" id="btn-vs" class="day-btn px-4 py-3 rounded-lg bg-white border border-stone-200 text-stone-700 font-semibold min-w-[60px]">ВС</button>
+            </div>
+
+            <!-- Dynamic Workout Content -->
+            <div id="workout-content" class="bg-white rounded-xl shadow-sm p-6 border border-stone-100 min-h-[400px]">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Core Complex (Always visible at bottom of training) -->
+            <div class="mt-8 bg-stone-800 text-stone-50 rounded-xl p-6 shadow-md">
+                <h3 class="text-xl font-bold mb-2 text-emerald-400">🛡️ Комплекс на КОР (Защита спины)</h3>
+                <p class="text-stone-300 text-sm mb-6">Выполняйте дома после уличных тренировок (ПН, СР) и в конце зала (СБ). Режим: 3 круга</b>.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-stone-700 p-4 rounded-lg">
+                        <h4 class="font-bold text-white mb-1">1. Мертвый жук (Dead Bug)</h4>
+                        <p class="text-sm text-stone-300">По 12 раз на сторону. Поясница строго вжата в пол.</p>
+                    </div>
+                    <div class="bg-stone-700 p-4 rounded-lg">
+                        <h4 class="font-bold text-white mb-1">2. Ягодичный мостик</h4>
+                        <p class="text-sm text-stone-300">20 раз. В верхней точке жестко прожимаем ягодицы.</p>
+                    </div>
+                    <div class="bg-stone-700 p-4 rounded-lg">
+                        <h4 class="font-bold text-white mb-1">3. Планка на предплечьях</h4>
+                        <p class="text-sm text-stone-300">45-60 секунд. Таз подкручен, не провисаем.</p>
+                    </div>
+                    <div class="bg-stone-700 p-4 rounded-lg">
+                        <h4 class="font-bold text-white mb-1">4. Вакуум живота (Опционально)</h4>
+                        <p class="text-sm text-stone-300">5-7 дыхательных циклов.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. NUTRITION SECTION -->
+        <section id="nutrition" class="hidden animate-fade-in">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-stone-800 mb-2">Конструктор Питания</h1>
+                <p class="text-stone-600">Рацион адаптирован под ваши любимые продукты (фарш, курица, свинина, печень). Изучите варианты приемов пищи. Ключ к успеху — стабильность и легальные сладости.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                
+                <!-- Left Column: Meal Selector -->
+                <div class="w-full md:w-1/3 flex flex-col gap-3">
+                    <button onclick="showMeal('breakfast')" id="meal-breakfast" class="meal-tab w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 font-bold text-emerald-800">🍳 Завтраки</button>
+                    <button onclick="showMeal('lunch')" id="meal-lunch" class="meal-tab w-full text-left p-4 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 font-semibold text-stone-700">🍲 Обеды (Основа)</button>
+                    <button onclick="showMeal('snack')" id="meal-snack" class="meal-tab w-full text-left p-4 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 font-semibold text-stone-700">🍫 Перекус + Сладкое</button>
+                    <button onclick="showMeal('dinner')" id="meal-dinner" class="meal-tab w-full text-left p-4 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 font-semibold text-stone-700">🥗 Ужины (Легкие)</button>
+                </div>
+
+                <!-- Right Column: Meal Details -->
+                <div class="w-full md:w-2/3 bg-white rounded-xl shadow-sm border border-stone-100 p-6 min-h-[400px]" id="meal-details">
+                    <!-- Populated by JS -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. GROCERIES SECTION -->
+        <section id="groceries" class="hidden animate-fade-in">
+            <div class="mb-8 flex justify-between items-end">
+                <div>
+                    <h1 class="text-3xl font-bold text-stone-800 mb-2">Чек-лист Покупок</h1>
+                    <p class="text-stone-600">Список рассчитан на 1 неделю. Отмечайте купленные товары кликом. Газировки исключены.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="grocery-container">
+                <!-- Rendered by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-100 py-6 mt-auto">
+        <div class="max-w-5xl mx-auto px-4 text-center text-stone-500 text-sm">
+            <p>Сгенерировано для достижения цели: 12% жира и V-силуэт. Фокус на безопасность спины.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. STATE MANAGEMENT ---
+        let currentTab = 'overview';
+        let currentDay = 'pn';
+        let currentMeal = 'breakfast';
+        let macroChartInstance = null;
+
+        // --- 2. DATA STORAGE ---
+        const workoutData = {
+            'pn': { title: 'Улица: Ширина спины и Грудь', type: 'workout', items: [
+                { name: 'Подтягивания прямым хватом', desc: '3-4 подхода. Оставляйте 1-2 повторения в запасе.'},
+                { name: 'Отжимания на брусьях', desc: '3-4 подхода по 10-15 раз. Корпус слегка наклонен вперед.'},
+                { name: 'Австралийские подтягивания', desc: '3 подхода по 12-15 раз. Вис под углом, тянем грудь к перекладине (Безопасно для поясницы).'},
+                { name: 'Отжимания (ноги на возвышенности)', desc: '3 подхода по 12-15 раз. Качаем верх груди для брони.'}
+            ]},
+            'vt': { title: 'Активное Восстановление', type: 'rest', desc: 'Ежедневная цель: 10 000 шагов. Силовые тренировки запрещены, дайте ЦНС отдохнуть.' },
+            'sr': { title: 'Улица: Ширина спины и Грудь', type: 'workout', items: [
+                { name: 'Подтягивания прямым хватом', desc: '3-4 подхода. Не в жесткий отказ.'},
+                { name: 'Отжимания на брусьях', desc: '3-4 подхода по 10-15 раз.'},
+                { name: 'Австралийские подтягивания', desc: '3 подхода по 12-15 раз.'},
+                { name: 'Отжимания (ноги на скамье)', desc: '3 подхода по 12-15 раз.'}
+            ]},
+            'cht': { title: 'Активное Восстановление', type: 'rest', desc: 'Ежедневная цель: 10 000 шагов. Старайтесь больше ходить на свежем воздухе.' },
+            'pt': { title: 'Активное Восстановление', type: 'rest', desc: 'Ежедневная цель: 10 000 шагов. Подготовка к тяжелому дню в зале.' },
+            'sb': { title: 'ЗАЛ: V-Силуэт и Ноги (Без осевой)', type: 'workout', items: [
+                { name: 'Жим ногами в тренажере', desc: '3х15. Спина прижата, выработка тестостерона без нагрузки на позвонки.'},
+                { name: 'Жим гантелей лежа (наклон 30°)', desc: '3х10-12. Формирует верх груди.'},
+                { name: 'Махи гантелями в стороны', desc: '4х15. САМОЕ ВАЖНОЕ для ширины плеч. Локти вверх, работаем чисто.'},
+                { name: 'Тяга Т-грифа с упором в грудь', desc: '3х12. Утолщение спины. Если нет тренажера: тяга гантелей лежа животом на скамье.'},
+                { name: 'Обратная бабочка', desc: '3х15. Укрепляет заднюю дельту и осанку.'},
+                { name: 'Сгибания рук «Молотки»', desc: '3х12. Бережем бицепс, качаем брахиалис.'}
+            ]},
+            'vs': { title: 'Отдых и Прогулка', type: 'rest', desc: 'Полный отдых. Цель: 10 000 шагов. Закупка продуктов на неделю.' }
+        };
+
+        const mealData = {
+            'breakfast': {
+                title: '🍳 Завтраки (Чередуйте варианты)',
+                stats: '~500 ккал | 30-35 г белка',
+                info: 'Цель — выйти на норму ~12 яиц в неделю и не стоять у плиты.',
+                options: [
+                    { name: 'Вариант 1 (Яичный)', desc: '3 яйца (жареные/омлет на 5г масла ИЛИ вареные с вечера) + 50г хлеба + 30г сыра (или 50г рикотты) + 150г овощей.' },
+                    { name: 'Вариант 2 (Ленивый творожный)', desc: '200г творога (до 5%) + 1 фрукт ИЛИ 50г хлеба с сыром. Добавьте сахзам и пару ложек кефира, если сухо.' }
+                ]
+            },
+            'lunch': {
+                title: '🍲 Обеды (Основа Углеводов)',
+                stats: '~550-600 ккал | 40-45 г белка',
+                info: 'Добавляйте к обеду 150-200г свежих овощей с 1 ч.л. (5г) масла.',
+                options: [
+                    { name: 'Вариант 1 (Фарш)', desc: '70-80г макарон + 150г фарша (обжаренного с томатной пастой).' },
+                    { name: 'Вариант 2 (Свинина)', desc: '70-80г гречки + 150г свинины (корейка/вырезка/гуляш).' },
+                    { name: 'Вариант 3 (Печень)', desc: '250-300г картофеля (вес в сыром виде на пюре) + 150г печени (тушеной с луком и 1 ст.л. сметаны).' },
+                    { name: 'Вариант 4 (Скрембл с мясом)', desc: '150г любого мяса + скрембл из 2 яиц + 150г консервированного горошка/кукурузы (заменяют крупу).' }
+                ]
+            },
+            'snack': {
+                title: '🍫 Перекус и Легальное Сладкое',
+                stats: '~450 ккал | 18 г белка',
+                info: 'Ежедневное окно для сладкого, чтобы избежать срывов. Пейте с чаем без сахара или с минералкой.',
+                options: [
+                    { name: 'Основа', desc: 'Мягкий творог до 5% (150г) + Фрукт (яблоко/банан/ягоды 100-150г).' },
+                    { name: 'Сладость (Строго 200-250 ккал)', desc: '1 батончик (Сникерс/Твикс) ИЛИ 3 шоколадные конфеты ИЛИ 60г мармелада.' }
+                ]
+            },
+            'dinner': {
+                title: '🥗 Ужины (Легкие, высокобелковые)',
+                stats: '~400 ккал | 40 г белка',
+                info: 'В день тренировки в зале (СБ) можно добавить 50г крупы. В остальные дни — упор на овощи.',
+                options: [
+                    { name: 'Мясо (чередуйте с обедом)', desc: '150-180г куриного филе ИЛИ 150г нежирной свинины ИЛИ 150г фарша.' },
+                    { name: 'Огромный гарнир', desc: '250-300г овощей (тушеная капуста, стручковая фасоль, кабачки, свежий салат) + 1 ст.л. масла.' }
+                ]
+            }
+        };
+
+        const groceryCategories = [
+            {
+                title: '🥩 Мясо и Птица (~2.5 кг)',
+                items: ['Куриное филе грудки: 1 уп. (800-950г)', 'Свинина (вырезка без жира): 1 уп. (900-1000г)', 'Фарш нежирный: 1 уп. (400-450г)', 'Печень: 1 уп. (500г)']
+            },
+            {
+                title: '🥚 Молочка и Яйца',
+                items: ['Яйца куриные: 15 шт.', 'Творог классический (брикеты): 2-3 пачки', 'Мягкий творог (до 5%): 7 баночек', 'Сыр твердый (200г) ИЛИ Рикотта', 'Сметана 15%: 1 мал. банка']
+            },
+            {
+                title: '🥦 Овощи и Фрукты',
+                items: ['Бюджетные овощи (капуста, морковь, свекла): 1.5 кг', 'Картофель: 1-1.5 кг (для пюре)', 'Заморозка (фасоль, брокколи, кабачки): 3-4 уп.', 'Фрукты (яблоки, бананы): 1.5 - 2 кг']
+            },
+            {
+                title: '🍝 Бакалея',
+                items: ['Хлеб цельнозерновой: 1 буханка', 'Макароны тв. сортов: 1 пачка', 'Гречка / Рис (проверить запасы)', 'Горошек / Кукуруза консерв.: 1-2 банки']
+            },
+            {
+
+
+                title: '🍫 Сладкое и Напитки',
+                items: ['Легальные сладости: 7 порций (по 250 ккал)', 'Минеральная вода с газом: 4-6 бутылок', 'Чай / Кофе']
+            }
+        ];
+
+        // --- 3. FUNCTIONAL LOGIC ---
+
+        function switchTab(tabId) {
+            // Hide all sections
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            // Remove active classes from nav
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-emerald-600');
+                btn.style.borderBottom = "none";
+            });
+
+            // Show selected section
+            document.getElementById(tabId).classList.remove('hidden');
+            // Add active class to clicked nav
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.add('active');
+            activeBtn.style.borderBottom = "3px solid #059669";
+
+            if(tabId === 'overview' && !macroChartInstance) {
+                initChart();
+            }
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('macroChart').getContext('2d');
+            macroChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Белки (150г)', 'Жиры (75г)', 'Углеводы (~250г)'],
+                    datasets: [{
+                        data: [600, 675, 1000], // Calories approximation
+                        backgroundColor: [
+                            '#059669', // emerald-600 (Protein)
+                            '#fbbf24', // amber-400 (Fats)
+                            '#a8a29e'  // stone-400 (Carbs)
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // CRITICAL for chart-container logic
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 13 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) label += ': ';
+                                    label += context.raw + ' ккал';
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        function selectDay(dayId) {
+            // Update Buttons
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                const btnDay = btn.id.replace('btn-', '');
+                
+                // Clear all dynamic state classes
+                btn.classList.remove(
+                    'bg-emerald-600', 'text-white', 'border-emerald-600', 'shadow-md', 'active',
+                    'bg-emerald-50', 'text-emerald-700', 'border-emerald-300', 
+                    'bg-white', 'text-stone-700', 'border-stone-200'
+                );
+
+                if (btnDay === dayId) {
+                    // Active State
+                    btn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600', 'shadow-md', 'active');
+                } else {
+                    // Default Unvisited State
+                    btn.classList.add('bg-white', 'text-stone-700', 'border-stone-200');
+                }
+            });
+
+            // Render Content
+            const data = workoutData[dayId];
+            const container = document.getElementById('workout-content');
+            
+            let html = `<h2 class="text-2xl font-bold text-stone-800 mb-4">${data.title}</h2>`;
+            
+            if (data.type === 'rest') {
+                html += `
+                    <div class="flex items-center justify-center p-12 bg-stone-50 rounded-xl border border-stone-200 border-dashed">
+                        <div class="text-center">
+                            <span class="text-5xl mb-4 block">👟</span>
+                            <p class="text-lg text-stone-600 font-medium">${data.desc}</p>
+                        </div>
+                    </div>`;
+            } else {
+                html += `<div class="space-y-4">`;
+                data.items.forEach((item, index) => {
+                    html += `
+                        <div class="p-4 rounded-lg bg-stone-50 border border-stone-100 flex gap-4 items-start hover:bg-emerald-50 transition-colors">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center">${index + 1}</div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">${item.name}</h4>
+                                <p class="text-stone-600 text-sm mt-1">${item.desc}</p>
+                            </div>
+                        </div>`;
+                });
+                html += `</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        function showMeal(mealId) {
+            // Update tabs
+            document.querySelectorAll('.meal-tab').forEach(tab => {
+                tab.classList.remove('border-2', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-800');
+                tab.classList.add('border', 'border-stone-200', 'bg-white', 'text-stone-700');
+            });
+            const activeTab = document.getElementById('meal-' + mealId);
+            activeTab.classList.remove('border', 'border-stone-200', 'bg-white', 'text-stone-700');
+            activeTab.classList.add('border-2', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-800');
+
+            // Render Content
+            const data = mealData[mealId];
+            const container = document.getElementById('meal-details');
+            
+            let html = `
+                <div class="flex justify-between items-start mb-4 border-b border-stone-100 pb-4">
+                    <h2 class="text-2xl font-bold text-stone-800">${data.title}</h2>
+                    <span class="px-3 py-1 bg-stone-800 text-stone-50 text-sm font-semibold rounded-md">${data.stats}</span>
+                </div>
+                <p class="text-stone-600 mb-6">${data.info}</p>
+                <div class="grid grid-cols-1 gap-4">
+            `;
+            
+            data.options.forEach(opt => {
+                html += `
+                    <div class="meal-card p-4 rounded-xl border border-stone-200 bg-stone-50">
+                        <h4 class="font-bold text-emerald-700 mb-2">${opt.name}</h4>
+                        <p class="text-stone-700 text-sm leading-relaxed">${opt.desc}</p>
+                    </div>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function renderGroceries() {
+            const container = document.getElementById('grocery-container');
+            let html = '';
+            
+            groceryCategories.forEach((cat, cIdx) => {
+                html += `
+                    <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm">
+                        <h3 class="font-bold text-lg text-stone-800 mb-3 border-b border-stone-100 pb-2">${cat.title}</h3>
+                        <ul class="space-y-2">
+                `;
+                cat.items.forEach((item, iIdx) => {
+                    const id = `check-${cIdx}-${iIdx}`;
+                    html += `
+                        <li class="flex items-start gap-3">
+                            <input type="checkbox" id="${id}" class="mt-1 w-4 h-4 text-emerald-600 bg-stone-100 border-stone-300 rounded focus:ring-emerald-500 cursor-pointer" onclick="toggleStrike('${id}', 'label-${id}')">
+                            <label id="label-${id}" for="${id}" class="text-stone-700 text-sm cursor-pointer transition-all">${item}</label>
+                        </li>
+                    `;
+                });
+                html += `</ul></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function toggleStrike(checkboxId, labelId) {
+            const cb = document.getElementById(checkboxId);
+            const label = document.getElementById(labelId);
+            if(cb.checked) {
+                label.classList.add('strikethrough');
+            } else {
+                label.classList.remove('strikethrough');
+            }
+        }
+
+        // Initialize App
+        window.onload = () => {
+            initChart(); // Overview is active by default
+            selectDay('pn'); // Init training day
+            showMeal('breakfast'); // Init meal tab
+            renderGroceries(); // Init grocery list
+        };
+
+    </script>
+</body>
+</html>
